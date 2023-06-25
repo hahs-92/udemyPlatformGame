@@ -9,16 +9,18 @@ public class Player : MonoBehaviour
 
     [Header("Jump")]
     public float jumpForce;
+    public float groundCheckDistance;
     private bool isGrounded;
     private bool canDoubleJump = true;
 
     [Header("collision")]
     public LayerMask whatIsGround;
-    public float groundCheckDistance;
 
-    [Header("walk")]
-    private bool isWallChecked;
+    [Header("wall")]
     public float wallCheckDistance;
+    private bool isWallDetected;
+    private bool canWallSlide;
+    private bool isWallSliding;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -34,22 +36,38 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        movingInput = Input.GetAxis("Horizontal");
-        FlipController();
         AnimationController();
         CollisionChecks();
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            JumpButton(); 
-        }
+        FlipController();
+        InputChecks();
 
         if(isGrounded)
         {
-            canDoubleJump= true;
+            canDoubleJump = true;
+        }
+
+        if(canWallSlide)
+        {
+            isWallSliding = true;
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.1f);
         }
 
         Move();
+    }
+
+    private void InputChecks()
+    {
+        movingInput = Input.GetAxis("Horizontal");
+
+        if(Input.GetAxis("Vertical") < 0)
+        {
+            canWallSlide = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            JumpButton();
+        }
     }
 
     private void JumpButton()
@@ -60,7 +78,7 @@ public class Player : MonoBehaviour
         } else if(canDoubleJump)
         {
             Jump();
-            canDoubleJump= false;
+            canDoubleJump = false;
         }
     }
 
@@ -77,7 +95,17 @@ public class Player : MonoBehaviour
     private void CollisionChecks()
     {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
-        isWallChecked = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
+        isWallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
+
+        if(isWallDetected && rb.velocity.y < 0 )
+        {
+            canWallSlide = true;
+        }
+
+        if(!isWallDetected)
+        {
+            canWallSlide = false;
+        }
     }
 
     private void FlipController()
@@ -110,8 +138,9 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.
-            DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));  
-        
+            DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));
+        Gizmos.color = Color.green;
+
         Gizmos.
             DrawLine(transform.position, new Vector3(transform.position.x + wallCheckDistance * facingDirection, transform.position.y));
     }
