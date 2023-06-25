@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private float movingInput;
     private bool isGrounded;
     private bool canDoubleJump = true;
+    private bool facingRight = true;
+    private int facingDirection = 1;
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         movingInput = Input.GetAxis("Horizontal");
+        FlipController();
         AnimationController();
         CollisionChecks();
 
@@ -70,6 +73,24 @@ public class Player : MonoBehaviour
     private void CollisionChecks()
     {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
+    }
+
+    private void FlipController()
+    {
+        if(facingRight && movingInput < 0)
+        {
+            Flip();
+        } else if(!facingRight && movingInput > 0) 
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        facingDirection *= -1;
+        facingRight = !facingRight;
+        transform.Rotate(0,180,0);
     }
 
     private void AnimationController()
