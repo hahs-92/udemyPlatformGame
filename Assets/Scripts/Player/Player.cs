@@ -9,16 +9,20 @@ public class Player : MonoBehaviour
 
     [Header("Jump")]
     public float jumpForce;
+    private bool isGrounded;
+    private bool canDoubleJump = true;
 
     [Header("collision")]
     public LayerMask whatIsGround;
     public float groundCheckDistance;
 
+    [Header("walk")]
+    private bool isWallChecked;
+    public float wallCheckDistance;
+
     private Rigidbody2D rb;
     private Animator anim;
     private float movingInput;
-    private bool isGrounded;
-    private bool canDoubleJump = true;
     private bool facingRight = true;
     private int facingDirection = 1;
 
@@ -73,6 +77,7 @@ public class Player : MonoBehaviour
     private void CollisionChecks()
     {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
+        isWallChecked = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
     }
 
     private void FlipController()
@@ -105,6 +110,9 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.
-            DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));
+            DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));  
+        
+        Gizmos.
+            DrawLine(transform.position, new Vector3(transform.position.x + wallCheckDistance * facingDirection, transform.position.y));
     }
 }
