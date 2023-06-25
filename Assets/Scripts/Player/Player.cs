@@ -60,9 +60,9 @@ public class Player : MonoBehaviour
 
     private void InputChecks()
     {
-        movingInput = Input.GetAxis("Horizontal");
+        movingInput = Input.GetAxisRaw("Horizontal");
 
-        if(Input.GetAxis("Vertical") < 0)
+        if(Input.GetAxisRaw("Vertical") < 0)
         {
             canWallSlide = false;
         }
@@ -84,8 +84,8 @@ public class Player : MonoBehaviour
             Jump();
         } else if(canDoubleJump)
         {
-            Jump();
             canDoubleJump = false;
+            Jump();
         }
 
         canWallSlide= false;
@@ -93,12 +93,12 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        canMove= false;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
 
     private void WallJump()
     {
+        canMove= false;
         rb.velocity = new Vector2(wallJumpDirection.x * -facingDirection, wallJumpDirection.y);
     }
 
@@ -129,10 +129,10 @@ public class Player : MonoBehaviour
 
     private void FlipController()
     {
-        if(facingRight && rb.velocity.x < 0)
+        if(facingRight && rb.velocity.x < -.1f)
         {
             Flip();
-        } else if(!facingRight && rb.velocity.x > 0) 
+        } else if(!facingRight && rb.velocity.x > .1f) 
         {
             Flip();
         }
