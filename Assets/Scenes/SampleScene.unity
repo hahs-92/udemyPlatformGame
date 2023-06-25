@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 568351550}
   - component: {fileID: 568351549}
   - component: {fileID: 568351548}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,6 +457,11 @@ MonoBehaviour:
   moveSpeed: 6
   rb: {fileID: 1569158001}
   jumpForce: 15
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckDistance: 1.11
+  isGronded: 0
 --- !u!1 &1589203691
 GameObject:
   m_ObjectHideFlags: 0
