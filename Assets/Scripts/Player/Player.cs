@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private float movingInput;
-    private bool isGronded;
+    private bool isGrounded;
     private bool canDoubleJump = true;
 
     private void Awake()
@@ -28,10 +28,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        bool isMoving = rb.velocity.x != 0;
         movingInput = Input.GetAxis("Horizontal");
-
-        anim.SetBool("isMoving", isMoving);
+        AnimationController();
         CollisionChecks();
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -39,7 +37,7 @@ public class Player : MonoBehaviour
             JumpButton(); 
         }
 
-        if(isGronded)
+        if(isGrounded)
         {
             canDoubleJump= true;
         }
@@ -49,7 +47,7 @@ public class Player : MonoBehaviour
 
     private void JumpButton()
     {
-        if (isGronded)
+        if (isGrounded)
         {
             Jump();
         } else if(canDoubleJump)
@@ -71,7 +69,15 @@ public class Player : MonoBehaviour
 
     private void CollisionChecks()
     {
-        isGronded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
+    }
+
+    private void AnimationController()
+    {
+        bool isMoving = rb.velocity.x != 0;
+        anim.SetBool("isMoving", isMoving);
+        anim.SetFloat("yVelocity", rb.velocity.y);
+        anim.SetBool("isGrounded", isGrounded);
     }
 
     private void OnDrawGizmos()
