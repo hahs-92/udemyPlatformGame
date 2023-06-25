@@ -12,9 +12,10 @@ public class Player : MonoBehaviour
     public float jumpForce;
 
     private float movingInput;
+    private bool isGronded;
+    private bool canDoubleJump = true;
     public LayerMask whatIsGround;
     public float groundCheckDistance;
-    public bool isGronded;
 
     private void Update()
     {
@@ -23,13 +24,27 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(isGronded)
-            {
-                Jump();
-            }
+            JumpButton(); 
+        }
+
+        if(isGronded)
+        {
+            canDoubleJump= true;
         }
 
         Move();
+    }
+
+    private void JumpButton()
+    {
+        if (isGronded)
+        {
+            Jump();
+        } else if(canDoubleJump)
+        {
+            Jump();
+            canDoubleJump= false;
+        }
     }
 
     private void Jump()
