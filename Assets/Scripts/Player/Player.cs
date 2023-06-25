@@ -6,20 +6,32 @@ public class Player : MonoBehaviour
 {
     [Header("Move")]
     public float moveSpeed;
-    public Rigidbody2D rb;
 
     [Header("Jump")]
     public float jumpForce;
 
-    private float movingInput;
-    private bool isGronded;
-    private bool canDoubleJump = true;
+    [Header("collision")]
     public LayerMask whatIsGround;
     public float groundCheckDistance;
 
+    private Rigidbody2D rb;
+    private Animator anim;
+    private float movingInput;
+    private bool isGronded;
+    private bool canDoubleJump = true;
+
+    private void Awake()
+    {
+        rb= GetComponent<Rigidbody2D>();
+        anim= GetComponent<Animator>();
+    }
+
     private void Update()
     {
+        bool isMoving = rb.velocity.x != 0;
         movingInput = Input.GetAxis("Horizontal");
+
+        anim.SetBool("isMoving", isMoving);
         CollisionChecks();
 
         if (Input.GetKeyDown(KeyCode.Space))
