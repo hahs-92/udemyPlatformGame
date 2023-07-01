@@ -5,13 +5,13 @@ using UnityEngine;
 public class TrapSaw : Trap
 {
     private Animator anim;
-    [SerializeField] private Transform[] movePoints;
-    [SerializeField] private float speed;
     [SerializeField] private float coolDown;
+    [SerializeField] protected Transform[] movePoints;
+    [SerializeField] protected float speed;
 
     private bool isWorking;
-    private int movePointIndex;
     private float coolDownTimer;
+    protected int movePointIndex;
 
 
     private void Awake()
@@ -27,7 +27,7 @@ public class TrapSaw : Trap
         Move();
     }
 
-    private void Move()
+    protected virtual void Move()
     {
         if (!isWorking) return;
 
@@ -46,7 +46,7 @@ public class TrapSaw : Trap
         }
     }
 
-    private void Flip()
+    protected void Flip()
     {
         transform.localScale = new Vector3(1, transform.localScale.y * -1);
     }
