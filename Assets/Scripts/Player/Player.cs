@@ -10,9 +10,11 @@ public class Player : MonoBehaviour
 
     [Header("Jump")]
     public float jumpForce;
+    public float doubleJumpForce;
     public float groundCheckDistance;
     private bool isGrounded;
     private bool canDoubleJump = true;
+    private float defaultJumpForce;
 
     [Header("collision")]
     public LayerMask whatIsGround;
@@ -34,6 +36,11 @@ public class Player : MonoBehaviour
     {
         rb= GetComponent<Rigidbody2D>();
         anim= GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        defaultJumpForce = jumpForce;
     }
 
     private void Update()
@@ -78,14 +85,18 @@ public class Player : MonoBehaviour
         if(isWallSliding)
         {
             WallJump();
+            canDoubleJump= true;
         }
         else if (isGrounded)
         {
             Jump();
         } else if(canDoubleJump)
         {
+            canMove= true;
             canDoubleJump = false;
+            jumpForce = doubleJumpForce;
             Jump();
+            jumpForce= defaultJumpForce;
         }
 
         canWallSlide= false;
