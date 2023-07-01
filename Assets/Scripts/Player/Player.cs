@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     private bool canMove;
 
     [Header("Jump")]
+    [SerializeField] private float bufferJumpTime;
+    private float bufferJumpCounter;
+
     public float jumpForce;
     public float doubleJumpForce;
     public float groundCheckDistance;
@@ -50,10 +53,18 @@ public class Player : MonoBehaviour
         FlipController();
         InputChecks();
 
+        bufferJumpCounter -= Time.deltaTime;
+
         if(isGrounded)
         {
             canDoubleJump = true;
             canMove = true;
+
+            if(bufferJumpCounter > 0)
+            {
+                bufferJumpCounter = -1;
+                Jump();
+            }
         }
 
         if(canWallSlide)
@@ -82,6 +93,12 @@ public class Player : MonoBehaviour
 
     private void JumpButton()
     {
+        if(!isGrounded)
+        {
+            bufferJumpCounter = bufferJumpTime;
+        }
+
+
         if(isWallSliding)
         {
             WallJump();

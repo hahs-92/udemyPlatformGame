@@ -24609,6 +24609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
+  bufferJumpTime: 0.1
   jumpForce: 15
   doubleJumpForce: 10
   groundCheckDistance: 1.11
