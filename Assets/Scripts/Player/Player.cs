@@ -11,20 +11,22 @@ public class Player : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float bufferJumpTime;
     [SerializeField] private float cayoteJumpTime;
+    [SerializeField] private float groundCheckDistance;
     private float bufferJumpCounter;
     private float cayoteJumpCounter;
     private bool canHavecayoteJump;
 
     public float jumpForce;
     public float doubleJumpForce;
-    public float groundCheckDistance;
     private bool isGrounded;
     private bool canDoubleJump = true;
     private float defaultJumpForce;
 
     [Header("collision")]
-    public LayerMask whatIsGround;
-
+    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private Transform enemyCheck;
+    [SerializeField] private float enemyCheckRadious;
+    
     [Header("knockback")]
     [SerializeField] private Vector2 knockBackDirection;
     [SerializeField] private float knockBackTime;
@@ -33,7 +35,7 @@ public class Player : MonoBehaviour
     private bool canBeKnocked = true;
 
     [Header("wall")]
-    public float wallCheckDistance;
+    [SerializeField ]private float wallCheckDistance;
     public Vector2 wallJumpDirection;
     private bool isWallDetected;
     private bool canWallSlide;
@@ -65,6 +67,8 @@ public class Player : MonoBehaviour
         CollisionChecks();
         FlipController();
         InputChecks();
+
+        CheckForEnemy();
 
         bufferJumpCounter -= Time.deltaTime;
         cayoteJumpCounter -= Time.deltaTime;
@@ -98,16 +102,50 @@ public class Player : MonoBehaviour
         Move();
     }
 
-    public void KnockBack(int direction)
+    private void CheckForEnemy()
+    {
+        Collider2D[] hitedColliders = Physics2D.OverlapCircleAll(enemyCheck.position, enemyCheckRadious);
+
+        foreach (var enemy in hitedColliders)
+        {
+            if (enemy.GetComponent<Enemy>() != null)
+            {
+                if(rb.velocity.y < 0)
+                {
+                    enemy.GetComponent<Enemy>().Damage();
+                    Jump();
+                }
+            }
+        }
+    }
+
+    public void KnockBack(Transform damagePosition)
     {
         if(!canBeKnocked) return;
 
         isKnocked = true;
         canBeKnocked = false;
-        rb.velocity = new Vector2(knockBackDirection.x * direction, knockBackDirection.y);
+
+        int hDirection = GetDamageDirection(damagePosition);    
+        rb.velocity = new Vector2(knockBackDirection.x * hDirection, knockBackDirection.y);
 
         Invoke(nameof(CancelKnockBack), knockBackTime);
         Invoke(nameof(AllowKnockback), knockBackProtectionTime);
+    }
+
+    private int GetDamageDirection(Transform damagePosition)
+    {
+        int hDirection = 0;
+        if (transform.position.x > damagePosition.position.x)
+        {
+            hDirection = 1;
+        }
+        else if (transform.position.x < damagePosition.position.x)
+        {
+            hDirection = -1;
+        }
+
+        return hDirection;
     }
 
     private void InputChecks()
@@ -237,9 +275,12 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.
             DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));
-        Gizmos.color = Color.green;
 
+        Gizmos.color = Color.green;
         Gizmos.
             DrawLine(transform.position, new Vector3(transform.position.x + wallCheckDistance * facingDirection, transform.position.y));
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(enemyCheck.position, enemyCheckRadious);
     }
 }
