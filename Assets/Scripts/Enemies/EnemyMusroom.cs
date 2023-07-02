@@ -23,6 +23,8 @@ public class EnemyMusroom : Enemy
         base.Update();
         if(idleTimeCounter <= 0) 
             rb.velocity = new Vector2(speed * facingDirection, rb.velocity.y);
+        else 
+            rb.velocity = Vector2.zero;
 
         idleTimeCounter -= Time.deltaTime;
 

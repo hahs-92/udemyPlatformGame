@@ -32,12 +32,18 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         CollisionChecks();
+        AnimationController();
     }
 
 
     public void Damage()
     {
         Debug.Log("<color= blue> Damage</color>");
+    }
+
+    protected virtual void AnimationController()
+    {
+        anim.SetFloat("xVelocity", rb.velocity.x);
     }
 
     protected virtual void Flip()
@@ -69,7 +75,9 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(groundCheck.position, new Vector2(transform.position.x, transform.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector2(transform.position.x + wallCheckDistance * facingDirection, transform.position.y));
+        Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance * facingDirection, wallCheck.position.y));
     }
 }
