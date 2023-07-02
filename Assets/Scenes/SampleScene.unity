@@ -24610,12 +24610,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   bufferJumpTime: 0.1
+  cayoteJumpTime: 0.15
   jumpForce: 15
   doubleJumpForce: 10
   groundCheckDistance: 1.11
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  knockBackDirection: {x: 3, y: 8}
+  knockBackTime: 0.3
+  knockBackProtectionTime: 0.6
   wallCheckDistance: 0.7
   wallJumpDirection: {x: 5, y: 15}
 --- !u!95 &1569158006

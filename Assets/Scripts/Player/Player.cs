@@ -10,7 +10,10 @@ public class Player : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float bufferJumpTime;
+    [SerializeField] private float cayoteJumpTime;
     private float bufferJumpCounter;
+    private float cayoteJumpCounter;
+    private bool canHavecayoteJump;
 
     public float jumpForce;
     public float doubleJumpForce;
@@ -21,6 +24,13 @@ public class Player : MonoBehaviour
 
     [Header("collision")]
     public LayerMask whatIsGround;
+
+    [Header("knockback")]
+    [SerializeField] private Vector2 knockBackDirection;
+    [SerializeField] private float knockBackTime;
+    [SerializeField] private float knockBackProtectionTime;
+    private bool isKnocked;
+    private bool canBeKnocked = true;
 
     [Header("wall")]
     public float wallCheckDistance;
@@ -49,11 +59,15 @@ public class Player : MonoBehaviour
     private void Update()
     {
         AnimationController();
+
+        if (isKnocked) return;
+
         CollisionChecks();
         FlipController();
         InputChecks();
 
         bufferJumpCounter -= Time.deltaTime;
+        cayoteJumpCounter -= Time.deltaTime;
 
         if(isGrounded)
         {
@@ -65,15 +79,35 @@ public class Player : MonoBehaviour
                 bufferJumpCounter = -1;
                 Jump();
             }
+            canDoubleJump = true;
+        } else
+        {
+            if(canHavecayoteJump)
+            {
+                canHavecayoteJump= false;
+                cayoteJumpCounter = cayoteJumpTime;
+            }
         }
 
         if(canWallSlide)
         {
             isWallSliding = true;
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.1f);
-        }
+        } 
 
         Move();
+    }
+
+    public void KnockBack(int direction)
+    {
+        if(!canBeKnocked) return;
+
+        isKnocked = true;
+        canBeKnocked = false;
+        rb.velocity = new Vector2(knockBackDirection.x * direction, knockBackDirection.y);
+
+        Invoke(nameof(CancelKnockBack), knockBackTime);
+        Invoke(nameof(AllowKnockback), knockBackProtectionTime);
     }
 
     private void InputChecks()
@@ -104,6 +138,10 @@ public class Player : MonoBehaviour
             WallJump();
             canDoubleJump= true;
         }
+        else if(cayoteJumpCounter > 0 && rb.velocity.y <= 0)
+        {
+            Jump();
+        }
         else if (isGrounded)
         {
             Jump();
@@ -117,6 +155,16 @@ public class Player : MonoBehaviour
         }
 
         canWallSlide= false;
+    }
+
+    private void CancelKnockBack()
+    {
+        isKnocked = false;
+    }
+
+    private void AllowKnockback()
+    {
+        canBeKnocked = true;
     }
 
     private void Jump()
@@ -181,6 +229,7 @@ public class Player : MonoBehaviour
         anim.SetBool("isGrounded", isGrounded);
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isWallDetected", isWallDetected);
+        anim.SetBool("isKnocked", isKnocked);
     }
 
     private void OnDrawGizmos()
