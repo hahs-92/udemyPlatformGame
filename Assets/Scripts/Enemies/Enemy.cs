@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     protected bool wallDetected;
     protected bool groundDetected;
 
+    public bool invencible;
+
 
     protected virtual void Awake()
     {
@@ -43,13 +45,17 @@ public class Enemy : MonoBehaviour
 
     public void Damage()
     {
-        Debug.Log("<color= blue> Damage</color>");
-        anim.SetTrigger("gotHit");
+        if(!invencible)
+        {
+            Debug.Log("<color= blue> Damage</color>");
+            anim.SetTrigger("gotHit");
+        }
     }
 
     protected virtual void AnimationController()
     {
         anim.SetFloat("xVelocity", rb.velocity.x);
+        anim.SetBool("invencible", invencible);
     }
 
     protected virtual void Flip()
