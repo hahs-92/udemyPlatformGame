@@ -10,4 +10,10 @@ public class EnemyMusroom : Enemy
         base.Update();
         WalkAround();
     }
+
+    protected override void AnimationController()
+    {
+        base.AnimationController();
+        anim.SetFloat("xVelocity", rb.velocity.x);
+    }
 }

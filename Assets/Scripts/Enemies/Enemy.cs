@@ -10,18 +10,18 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected float wallCheckDistance;
-
     [SerializeField] protected float speed;
     [SerializeField] protected float idleTime;
+    
+    protected bool canMove = true;
     protected float idleTimeCounter;
-
     protected Animator anim;
     protected Rigidbody2D rb;
     protected int facingDirection = 1;
     protected bool wallDetected;
     protected bool groundDetected;
 
-    public bool invencible;
+    public bool invencible = true;
 
 
     protected virtual void Awake()
@@ -53,12 +53,13 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("<color= blue> Damage</color>");
             anim.SetTrigger("gotHit");
+            canMove= false;
         }
     }
 
     protected virtual void WalkAround()
     {
-        if (idleTimeCounter <= 0)
+        if (idleTimeCounter <= 0 && canMove)
             rb.velocity = new Vector2(speed * facingDirection, rb.velocity.y);
         else
             rb.velocity = Vector2.zero;
@@ -74,7 +75,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void AnimationController()
     {
-        anim.SetFloat("xVelocity", rb.velocity.x);
+       
     }
 
     protected virtual void Flip()

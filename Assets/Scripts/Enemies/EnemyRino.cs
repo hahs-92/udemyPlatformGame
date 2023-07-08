@@ -34,6 +34,7 @@ public class EnemyRino : Enemy
     protected override void AnimationController()
     {
         base.AnimationController();
+        anim.SetFloat("xVelocity", rb.velocity.x);
         anim.SetBool("invencible", invencible);
     }
 

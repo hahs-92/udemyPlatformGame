@@ -43,6 +43,7 @@ public class EnemyRedish : Enemy
     protected override void AnimationController()
     {
         base.AnimationController();
+        anim.SetFloat("xVelocity", rb.velocity.x);
         anim.SetBool("aggresive", isAggresive);
     }
 
