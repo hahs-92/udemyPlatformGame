@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected float wallCheckDistance;
 
+    [SerializeField] protected float speed;
+    [SerializeField] protected float idleTime;
+    protected float idleTimeCounter;
+
     protected Animator anim;
     protected Rigidbody2D rb;
     protected int facingDirection = 1;
@@ -28,7 +32,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
-        
+        facingDirection = -1;
     }
 
     protected virtual void Update()
@@ -43,7 +47,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void Damage()
+    public virtual void Damage()
     {
         if(!invencible)
         {
@@ -52,10 +56,25 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    protected virtual void WalkAround()
+    {
+        if (idleTimeCounter <= 0)
+            rb.velocity = new Vector2(speed * facingDirection, rb.velocity.y);
+        else
+            rb.velocity = Vector2.zero;
+
+        idleTimeCounter -= Time.deltaTime;
+
+        if (wallDetected || !groundDetected)
+        {
+            idleTimeCounter = idleTime;
+            Flip();
+        }
+    }
+
     protected virtual void AnimationController()
     {
         anim.SetFloat("xVelocity", rb.velocity.x);
-        anim.SetBool("invencible", invencible);
     }
 
     protected virtual void Flip()
@@ -85,7 +104,7 @@ public class Enemy : MonoBehaviour
         player.KnockBack(transform);
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
