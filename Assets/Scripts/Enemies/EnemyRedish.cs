@@ -11,7 +11,6 @@ public class EnemyRedish : Enemy
     [SerializeField] private float flyForce;
 
     private float aggresiveTimeCounter;
-    private bool isAggresive;
     private RaycastHit2D groundBelowDetected;
     private bool groundAboveDetected;
 

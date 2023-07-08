@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float idleTime;
     
     protected bool canMove = true;
+    protected bool isAggresive;
     protected float idleTimeCounter;
     protected Animator anim;
     protected Rigidbody2D rb;
@@ -86,16 +87,23 @@ public class Enemy : MonoBehaviour
 
     protected virtual void CollisionChecks()
     {
-        groundDetected = Physics2D.Raycast(
-            groundCheck.position, 
-            Vector2.down, groundCheckDistance, whatIsGround);
-        wallDetected = Physics2D.Raycast(
-            wallCheck.position, 
-            Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
+        if(groundCheck != null)
+        {
+            groundDetected = Physics2D.Raycast(
+                groundCheck.position, 
+                Vector2.down, groundCheckDistance, whatIsGround);
+        }
+
+        if(wallCheck != null)
+        {
+            wallDetected = Physics2D.Raycast(
+                wallCheck.position, 
+                Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
+        }
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
 
@@ -107,10 +115,16 @@ public class Enemy : MonoBehaviour
 
     protected virtual void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
+        if(groundCheck != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
+        }
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance * facingDirection, wallCheck.position.y));
+        if(wallCheck != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance * facingDirection, wallCheck.position.y));
+        }
     }
 }

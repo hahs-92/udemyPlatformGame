@@ -9,7 +9,6 @@ public class EnemyRino : Enemy
     [SerializeField] private LayerMask whatToIgnore; // default, Enemy
     [SerializeField] private float shockTime;
 
-    private bool isAggresive;
     private RaycastHit2D playerDetection;
     private float shockTimeCounter;
 
