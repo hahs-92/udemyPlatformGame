@@ -6,6 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] protected LayerMask whatIsGround;
+    [SerializeField] private LayerMask whatToIgnore; // default, Enemy
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected float groundCheckDistance;
@@ -13,11 +14,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected float idleTime;
     
+    protected Animator anim;
+    protected Rigidbody2D rb;
+    protected RaycastHit2D playerDetection;
     protected bool canMove = true;
     protected bool isAggresive;
     protected float idleTimeCounter;
-    protected Animator anim;
-    protected Rigidbody2D rb;
     protected int facingDirection = 1;
     protected bool wallDetected;
     protected bool groundDetected;
@@ -34,6 +36,9 @@ public class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         facingDirection = -1;
+
+        if (wallCheck == null) wallCheck = transform;
+        if (groundCheck == null) groundCheck = transform;
     }
 
     protected virtual void Update()
@@ -99,6 +104,12 @@ public class Enemy : MonoBehaviour
             wallDetected = Physics2D.Raycast(
                 wallCheck.position, 
                 Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
+
+            playerDetection = Physics2D.Raycast(
+                wallCheck.position,
+                Vector2.right * facingDirection,
+                50,
+                ~whatToIgnore);
         }
     }
 
@@ -125,6 +136,9 @@ public class Enemy : MonoBehaviour
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance * facingDirection, wallCheck.position.y));
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + playerDetection.distance * facingDirection, wallCheck.position.y));
         }
     }
 }

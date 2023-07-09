@@ -6,10 +6,8 @@ public class EnemyRino : Enemy
 {
     [Header("Rinho")]
     [SerializeField] private float aggresiveSpeed;
-    [SerializeField] private LayerMask whatToIgnore; // default, Enemy
     [SerializeField] private float shockTime;
 
-    private RaycastHit2D playerDetection;
     private float shockTimeCounter;
 
     protected override void Start()
@@ -21,12 +19,6 @@ public class EnemyRino : Enemy
     protected override void Update()
     {
         base.Update();
-        
-        playerDetection = Physics2D.Raycast(
-            wallCheck.position, 
-            Vector2.right * facingDirection, 
-            50, 
-            ~whatToIgnore);
         Move();
     }
 
