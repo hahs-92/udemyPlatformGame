@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class EnemyPlant : Enemy
 {
+    [Header("Plant")]
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform bulletPoint;
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private bool rightDirection;
+   
+
+    protected override void Start()
+    {
+        base.Start();
+
+        if(rightDirection)
+        {
+            Flip();
+        }
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -17,8 +34,10 @@ public class EnemyPlant : Enemy
         }
     }
 
+    // se llama en la animacion
     private void AttackEvent()
     {
-        Debug.Log("Attack");
+        GameObject newBullet = Instantiate(bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
+        newBullet.GetComponent<Bullet>()?.SetSpeed(bulletSpeed * facingDirection, 0);
     }
 }

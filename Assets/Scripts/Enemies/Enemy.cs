@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Trap
 {
     [SerializeField] protected LayerMask whatIsGround;
-    [SerializeField] private LayerMask whatToIgnore; // default, Enemy
+    [SerializeField] protected LayerMask whatToIgnore; // default, Enemy
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected float groundCheckDistance;
@@ -15,12 +15,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float idleTime;
     
     protected Animator anim;
+    protected int facingDirection = 1;
     protected Rigidbody2D rb;
     protected RaycastHit2D playerDetection;
     protected bool canMove = true;
     protected bool isAggresive;
     protected float idleTimeCounter;
-    protected int facingDirection = 1;
     protected bool wallDetected;
     protected bool groundDetected;
 
@@ -111,17 +111,6 @@ public class Enemy : MonoBehaviour
                 50,
                 ~whatToIgnore);
         }
-    }
-
-
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!collision.CompareTag("Player")) return;
-
-        Player player = collision.GetComponent<Player>();
-        if (player == null) return;
-
-        player.KnockBack(transform);
     }
 
     protected virtual void OnDrawGizmos()
