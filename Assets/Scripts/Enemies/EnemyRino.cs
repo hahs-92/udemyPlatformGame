@@ -39,6 +39,12 @@ public class EnemyRino : Enemy
         }
         else
         {
+            if(!groundDetected)
+            {
+                Flip();
+                isAggresive = false;
+            }
+
             rb.velocity = new Vector2(aggresiveSpeed * facingDirection, rb.velocity.y);
 
             if (wallDetected && invencible)

@@ -173,12 +173,16 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  whatToIgnore:
+    serializedVersion: 2
+    m_Bits: 0
   groundCheck: {fileID: 6249599505377616603}
   wallCheck: {fileID: 6249599504871436545}
   groundCheckDistance: 1.08
   wallCheckDistance: 0.85
   speed: 2
   idleTime: 2
+  invencible: 0
 --- !u!1 &6249599504093705037
 GameObject:
   m_ObjectHideFlags: 0
