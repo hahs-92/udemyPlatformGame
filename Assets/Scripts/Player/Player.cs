@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 knockBackDirection;
     [SerializeField] private float knockBackTime;
     [SerializeField] private float knockBackProtectionTime;
+    private CameraShakeEffects cameraFX;
     private bool isKnocked;
     private bool canBeKnocked = true;
 
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
     private bool canWallSlide;
     private bool isWallSliding;
 
+    private SpriteRenderer sr;
     private Rigidbody2D rb;
     private Animator anim;
     private float movingInput;
@@ -49,8 +51,10 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        sr = GetComponent<SpriteRenderer>();
         rb= GetComponent<Rigidbody2D>();
         anim= GetComponent<Animator>();
+        cameraFX = GetComponent<CameraShakeEffects>();
     }
 
     private void Start()
@@ -127,6 +131,7 @@ public class Player : MonoBehaviour
     {
         if(!canBeKnocked) return;
 
+        cameraFX.ScreenShake(-facingDirection);
         isKnocked = true;
         canBeKnocked = false;
 
@@ -259,8 +264,9 @@ public class Player : MonoBehaviour
     private void Flip()
     {
         facingDirection *= -1;
+        sr.flipX = facingRight;
         facingRight = !facingRight;
-        transform.Rotate(0,180,0);
+        //transform.Rotate(0,180,0);
     }
 
     private void AnimationController()
