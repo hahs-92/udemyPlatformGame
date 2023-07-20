@@ -11,7 +11,6 @@ public class EnemyBee : Enemy
     [SerializeField] private float checkRadious;
     [SerializeField] private float yOffset;
 
-    private Transform player;
     private bool playerDetected;
     private float defaultSpeed;
     private int idlePointIndex;
@@ -24,7 +23,6 @@ public class EnemyBee : Enemy
     protected override void Awake()
     {
         base.Awake();
-        player = GameObject.Find("Player").transform;
     }
 
     protected override void Start()
@@ -36,6 +34,8 @@ public class EnemyBee : Enemy
     protected override void Update()
     {
         base.Update();
+
+
         bool idle = idleTimeCounter > 0;
         idleTimeCounter -= Time.deltaTime;
         anim.SetBool("idle", idle);
@@ -44,6 +44,8 @@ public class EnemyBee : Enemy
         {
             return;
         }
+
+        if (player == null) return;
 
         playerDetected = Physics2D.OverlapCircle(playerCheck.position, checkRadious, whatIsPlayer);
 

@@ -10,7 +10,6 @@ public class EnemyBat : Enemy
     [SerializeField] private float checkRadious;
     [SerializeField] private LayerMask whatIsPlayer;
 
-    private Transform player;
     private Vector2 destination;
     private bool canBeAggresive = true;
     private bool playerDetected;
@@ -20,7 +19,6 @@ public class EnemyBat : Enemy
     protected override void Awake()
     {
         base.Awake();
-        player = GameObject.Find("Player").transform;
     }
 
     protected override void Start()
@@ -49,7 +47,15 @@ public class EnemyBat : Enemy
         {
             isAggresive = true;
             canBeAggresive = false;
-            destination = player.transform.position;
+
+            if(player != null)
+            {
+                destination = player.transform.position;
+            } else
+            {
+                isAggresive = false;
+                canBeAggresive= true;
+            }
         }
 
         if(isAggresive)
@@ -103,6 +109,7 @@ public class EnemyBat : Enemy
 
     private void FlipControler()
     {
+        if (player == null) return;
         if (facingDirection == -1 && transform.position.x < destination.x)
         {
             Flip();

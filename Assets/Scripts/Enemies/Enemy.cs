@@ -18,6 +18,7 @@ public class Enemy : Trap
     protected int facingDirection = 1;
     protected Rigidbody2D rb;
     protected RaycastHit2D playerDetection;
+    protected Transform player;
     protected bool canMove = true;
     protected bool isAggresive;
     protected float idleTimeCounter;
@@ -48,6 +49,7 @@ public class Enemy : Trap
 
     protected virtual void Start()
     {
+        player = PlayerManager.instance.currentPlayer.transform;
         facingDirection = -1;
 
         if (wallCheck == null) wallCheck = transform;

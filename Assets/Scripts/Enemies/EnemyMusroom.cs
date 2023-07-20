@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyMusroom : Enemy
 {
-  
     protected override void Update()
     {
         base.Update();
