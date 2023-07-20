@@ -11,7 +11,7 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
-        myCamera.GetComponent<CinemachineVirtualCamera>().Follow = GameObject.FindGameObjectWithTag("Player").transform;
+        myCamera.GetComponent<CinemachineVirtualCamera>().Follow = PlayerManager.instance.currentPlayer.transform;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
