@@ -27,6 +27,19 @@ public class Enemy : Trap
     public bool invencible = true;
 
 
+    protected void OnBecameInvisible()
+    {
+        gameObject.SetActive(false);
+        Debug.Log("Invisible");
+    }
+
+    protected void OnBecameVisible()
+    {
+        gameObject.SetActive(true);
+        Debug.Log("visible");
+    }
+
+
     protected virtual void Awake()
     {
         anim= GetComponent<Animator>();
