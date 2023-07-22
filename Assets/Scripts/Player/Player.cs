@@ -143,6 +143,11 @@ public class Player : MonoBehaviour
         Invoke(nameof(AllowKnockback), knockBackProtectionTime);
     }
 
+    public void Push(float pushForce)
+    {
+        rb.velocity = new Vector2(rb.velocity.x, pushForce);
+    }
+
     private int GetDamageDirection(Transform damagePosition)
     {
         int hDirection = 0;

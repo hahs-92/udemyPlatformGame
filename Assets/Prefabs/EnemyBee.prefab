@@ -142,7 +142,7 @@ MonoBehaviour:
     m_Bits: 64
   whatToIgnore:
     serializedVersion: 2
-    m_Bits: 769
+    m_Bits: 1793
   groundCheck: {fileID: 0}
   wallCheck: {fileID: 0}
   groundCheckDistance: 0
