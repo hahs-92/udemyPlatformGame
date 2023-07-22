@@ -168,6 +168,9 @@ MonoBehaviour:
   doubleJumpForce: 10
   whatIsGround:
     serializedVersion: 2
+    m_Bits: 1088
+  whatIsWall:
+    serializedVersion: 2
     m_Bits: 64
   enemyCheck: {fileID: 4894242929287539798}
   enemyCheckRadious: 0.3

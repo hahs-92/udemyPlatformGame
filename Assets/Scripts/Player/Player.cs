@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
 
     [Header("collision")]
     [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private LayerMask whatIsWall;
     [SerializeField] private Transform enemyCheck;
     [SerializeField] private float enemyCheckRadious;
     
@@ -236,7 +237,7 @@ public class Player : MonoBehaviour
     private void CollisionChecks()
     {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
-        isWallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
+        isWallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, whatIsWall);
 
         if(isWallDetected && rb.velocity.y < 0 )
         {
