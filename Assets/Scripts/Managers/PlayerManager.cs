@@ -15,6 +15,14 @@ public class PlayerManager : MonoBehaviour
         instance = this;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            PlayerRespawn();
+        }
+    }
+
     public void PlayerRespawn()
     {
         if (currentPlayer == null)
