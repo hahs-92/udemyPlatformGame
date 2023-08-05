@@ -183,7 +183,7 @@ MonoBehaviour:
     m_Bits: 64
   whatToIgnore:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 261
   groundCheck: {fileID: 0}
   wallCheck: {fileID: 0}
   groundCheckDistance: 0
@@ -194,6 +194,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5280965772642447486, guid: 945cdd3be08405040988a83635348889, type: 3}
   bulletPoint: {fileID: 8709771461819641265}
   bulletSpeed: 6
+  rightDirection: 0
 --- !u!1 &8709771463292229241
 GameObject:
   m_ObjectHideFlags: 0
