@@ -28671,7 +28671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6540322814617964202, guid: 16737105794d1284891f16651176a1a0, type: 3}
       propertyPath: m_Name
-      value: Apple
+      value: Fruit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16737105794d1284891f16651176a1a0, type: 3}
