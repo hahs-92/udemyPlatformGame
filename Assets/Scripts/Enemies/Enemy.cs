@@ -49,7 +49,10 @@ public class Enemy : Trap
 
     protected virtual void Start()
     {
-        player = PlayerManager.instance.currentPlayer.transform;
+        if(PlayerManager.instance != null)
+        {
+            player = PlayerManager.instance.currentPlayer.transform;
+        }
         facingDirection = -1;
 
         if (wallCheck == null) wallCheck = transform;

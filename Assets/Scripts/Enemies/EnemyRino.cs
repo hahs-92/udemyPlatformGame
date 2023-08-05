@@ -31,6 +31,12 @@ public class EnemyRino : Enemy
 
     private  void Move()
     {
+        if(!playerDetection)
+        {
+            WalkAround();
+            return;
+        }
+
         if (playerDetection.collider.GetComponent<Player>() != null) isAggresive = true;
 
         if (!isAggresive)
