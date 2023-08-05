@@ -27,7 +27,6 @@ public class Fruit_Item : MonoBehaviour
 
     public void SetLayerWeight(int fruitIndex)
     {
-        Debug.Log("fruitIndex: " +  fruitIndex);
         for (int i = 0; i < anim.layerCount; i++)
         {
             anim.SetLayerWeight(i, 0);
