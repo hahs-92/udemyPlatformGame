@@ -24,7 +24,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerPrefs.SetInt("Coins", 50);
+        //PlayerPrefs.SetInt("Coins", 50);
+
+        if(difficulty == 0)
+        {
+            difficulty = PlayerPrefs.GetInt("GameDifficulty", 1);
+        }
     }
 
     private void Update()
@@ -34,5 +39,10 @@ public class GameManager : MonoBehaviour
             var coins = PlayerPrefs.GetInt("Coins");
             Debug.Log(coins);
         }
+    }
+
+    public void SaveDifficulty()
+    {
+        PlayerPrefs.SetInt("GameDifficulty", difficulty);
     }
 }

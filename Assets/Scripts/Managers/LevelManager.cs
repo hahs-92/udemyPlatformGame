@@ -28,6 +28,7 @@ public class LevelManager : MonoBehaviour
 
     public void Loadlevel(string sceneName)
     {
+        GameManager.instance.SaveDifficulty();
         SceneManager.LoadScene(sceneName);
     } 
 }

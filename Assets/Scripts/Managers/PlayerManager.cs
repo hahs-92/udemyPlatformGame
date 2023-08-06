@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     public Transform respawnPoint;
     public GameObject currentPlayer;
     public int choosenSkinId;
+    public int fruits;
 
     private void Awake()
     {

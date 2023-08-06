@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int fruits;
-
     [Header("Move")]
     public float moveSpeed;
     private bool canMove;
@@ -134,12 +132,15 @@ public class Player : MonoBehaviour
     {
         if(!canBeKnocked) return;
 
-        if(fruits <= 0)
+        if(GameManager.instance.difficulty > 1)
         {
-            Destroy(gameObject);
-        }
+            PlayerManager.instance.fruits--;
+            if(PlayerManager.instance.fruits <= 0)
+            {
+                Destroy(gameObject);
+            }
 
-        fruits--;
+        }
 
         cameraFX.ScreenShake(-facingDirection);
         isKnocked = true;
