@@ -9,15 +9,19 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject levelButton;
     [SerializeField] private Transform parent;
+    [SerializeField] private bool[] levelOpen;
 
 
     private void Start()
     {
         for (int i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
         {
+            if (!levelOpen[i]) return;
+
             string sceneName = "Level" + i;
             GameObject newButton = Instantiate(levelButton, parent);
-            newButton.AddComponent<Button>().onClick.AddListener(() => Loadlevel(sceneName));
+            newButton.GetComponent<Button>().onClick.AddListener(() => Loadlevel(sceneName));
+            //newButton.AddComponent<Button>().onClick.AddListener(() => Loadlevel(sceneName));
             newButton.GetComponentInChildren<TextMeshProUGUI>().text= sceneName;
         }
     }
