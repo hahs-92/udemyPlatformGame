@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     public Transform respawnPoint;
     public GameObject currentPlayer;
+    public int choosenSkinId;
 
     private void Awake()
     {

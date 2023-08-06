@@ -17,6 +17,11 @@ public class SkinSelection : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        skinPurchased[0] = true;
+    }
+
     public void NextSkin()
     {
         skinId++;
@@ -49,7 +54,11 @@ public class SkinSelection : MonoBehaviour
 
     public void Equip()
     {
-        Debug.Log("skin was equip");
+        if(PlayerManager.instance != null)
+        {
+            PlayerManager.instance.choosenSkinId = skinId;
+            Debug.Log("skin was equip");
+        }
     }
 
     private void SetupSkinInfo()
