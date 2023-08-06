@@ -13,4 +13,6 @@ public class MainMenuUi : MonoBehaviour
 
         uiMenu.SetActive(true);
     }
+
+    public void SetGameDifficulty(int i) => GameManager.instance.difficulty = i;
 }
