@@ -21,4 +21,18 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    private void Start()
+    {
+        PlayerPrefs.SetInt("Coins", 50);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.L))
+        {
+            var coins = PlayerPrefs.GetInt("Coins");
+            Debug.Log(coins);
+        }
+    }
 }
