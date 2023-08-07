@@ -18,6 +18,11 @@ public class StartPoint : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
+            if(!GameManager.instance.startTimer)
+            {
+                GameManager.instance.startTimer = true;
+            }
+
             if(collision.transform.position.x > transform.position.x)
             {
                 anim.SetTrigger("touch");

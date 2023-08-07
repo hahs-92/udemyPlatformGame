@@ -18,6 +18,8 @@ public class EndPoint : MonoBehaviour
         {
             anim.SetTrigger("activate");
             Debug.Log("Win¡¡");
+
+            GameManager.instance.SaveBestTime();
         }
     }
 }

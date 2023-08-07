@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public int difficulty;
+    public float timer;
+    public bool startTimer;
+    public int levelNumber;
 
     private void Awake()
     {
@@ -30,19 +33,34 @@ public class GameManager : MonoBehaviour
         {
             difficulty = PlayerPrefs.GetInt("GameDifficulty", 1);
         }
+
+        Debug.Log("Best Time " + PlayerPrefs.GetFloat("Level" + levelNumber + "BestTime"));
     }
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.L))
+        //if(Input.GetKeyUp(KeyCode.L))
+        //{
+        //    var coins = PlayerPrefs.GetInt("Coins");
+        //    Debug.Log(coins);
+        //}
+
+        if(startTimer)
         {
-            var coins = PlayerPrefs.GetInt("Coins");
-            Debug.Log(coins);
+            timer += Time.deltaTime;
         }
     }
 
     public void SaveDifficulty()
     {
         PlayerPrefs.SetInt("GameDifficulty", difficulty);
+    }
+
+    public void SaveBestTime()
+    {
+        startTimer = true;
+        //float lastTime = PlayerPrefs.GetFloat("Level" + levelNumber + "BestTime");
+        PlayerPrefs.SetFloat("Level" + levelNumber + "BestTime", timer);
+        timer = 0;
     }
 }
