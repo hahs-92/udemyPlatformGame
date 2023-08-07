@@ -10,16 +10,21 @@ public class SkinSelection : MonoBehaviour
     [SerializeField] private bool[] skinPurchased;
     [SerializeField] private int[] priceForSkin;
     [SerializeField] private GameObject buyBtn;
-    [SerializeField] private GameObject equipBtn;
+    [SerializeField] private GameObject selectBtn;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        skinPurchased[0] = true;
+        SetupSkinInfo();
+    }
+
+    private void OnDisable()
+    {
+        selectBtn.SetActive(false);
     }
 
     public void NextSkin()
@@ -63,8 +68,9 @@ public class SkinSelection : MonoBehaviour
 
     private void SetupSkinInfo()
     {
+        skinPurchased[0] = true;
         buyBtn.SetActive(!skinPurchased[skinId]);
-        equipBtn.SetActive(skinPurchased[skinId]);
+        selectBtn.SetActive(skinPurchased[skinId]);
 
         if(!skinPurchased[skinId])
         {
@@ -76,5 +82,10 @@ public class SkinSelection : MonoBehaviour
     private void SetSkinAnim()
     {
         anim.SetInteger("skinId", skinId);
+    }
+
+    public void SwitchSelectButton(GameObject newButton)
+    {
+        selectBtn = newButton;
     }
 }

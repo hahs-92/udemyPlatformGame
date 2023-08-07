@@ -75,4 +75,10 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Total fruits: "+ newTotalFruits);
     }
+
+    public void SaveLevelInfo()
+    {
+        int nextlevelNumber = levelNumber + 1;
+        PlayerPrefs.SetInt("Level" + nextlevelNumber + "Unlocked", 1);
+    }
 }
