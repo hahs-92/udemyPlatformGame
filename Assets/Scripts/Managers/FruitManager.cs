@@ -16,8 +16,13 @@ public class FruitManager : MonoBehaviour
         for (int i = 1; i < fruitPosition.Length; i++)
         {
             GameObject newFruit = Instantiate(fruitPrefab, fruitPosition[i]);
+
             fruitIndex = UnityEngine.Random.Range(0, Enum.GetNames(typeof(FruitType)).Length);
             newFruit.GetComponent<Fruit_Item>()?.SetLayerWeight(fruitIndex);
+
+
+            int levelNumber = GameManager.instance.levelNumber;
+            PlayerPrefs.SetInt("Level" + levelNumber + "TotalFruits", fruitPosition.Length -1);
         }
     }
 

@@ -20,6 +20,7 @@ public class EndPoint : MonoBehaviour
             Debug.Log("Win¡¡");
 
             GameManager.instance.SaveBestTime();
+            GameManager.instance.SaveCollectedFruits();
         }
     }
 }
